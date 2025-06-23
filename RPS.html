@@ -7,58 +7,48 @@
 
     <style>
       body {
-        background-color: rgb(185, 90, 90);
+        background-color: black;
         color: white;
         font-family: Arial;
         font-weight: 700;
         font-size: 24px;
-        
-      }
-
-      .rock-image ,
-       .paper-image,
-       .scissors-image {
-        
-        border: none;
-        height: 50px;
+        text-align: center;
       }
 
       .rock-button,
       .paper-button,
       .scissors-button {
-        background-color: transparent;
+        background-color: purple;
         border: solid;
-        border-color: rgb(15, 230, 44);
+        border-color: gold;
         height: 120px;
         width: 120px;
         border-radius: 70px;
         cursor: pointer;
         margin-right: 10px;
+        font-size: 48px;
+        color: white;
       }
+
       .reset-button{
-        padding: 4px;
+        padding: 8px 16px;
         border-radius: 4px;
-        border-color: rgb(64, 34, 202);
+        border: 2px solid gold;
+        background-color: black;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
       }
+
       .js-score-space {
         margin-top: 50px;
       }
-
     </style>
 
-
     <p>Rock Paper Scissors</p>
-    <button class="rock-button" onclick="
-      playGame('rock');
-    "><img class="rock-image" src="Intro Exercises/Rockpaperscissors/rock-emoji.png" alt="Rock"></button>
-
-    <button class="paper-button" onclick="
-      playGame('paper');
-    "><img class="paper-image" src="Intro Exercises/Rockpaperscissors/paper-emoji.png" alt="Paper"></button>
-
-    <button class="scissors-button" onclick="
-      playGame('scissors');
-    "><img class="scissors-image" src="Intro Exercises/Rockpaperscissors/scissors-emoji.png" alt="Scissors"></button>
+    <button class="rock-button" onclick="playGame('rock')">✊</button>
+    <button class="paper-button" onclick="playGame('paper')">✋</button>
+    <button class="scissors-button" onclick="playGame('scissors')">✌️</button>
 
     <p class="js-result"></p>
     <p class="js-moves"></p>
@@ -87,31 +77,11 @@
         let result = '';
 
         if (playerMove === 'scissors') {
-          if (computerMove === 'rock') {
-            result = 'You lose.';
-          } else if (computerMove === 'paper') {
-            result = 'You win.';
-          } else if (computerMove === 'scissors') {
-            result = 'Tie.';
-          }
-
+          result = computerMove === 'rock' ? 'You lose.' : computerMove === 'paper' ? 'You win.' : 'Tie.';
         } else if (playerMove === 'paper') {
-          if (computerMove === 'rock') {
-            result = 'You win.';
-          } else if (computerMove === 'paper') {
-            result = 'Tie.';
-          } else if (computerMove === 'scissors') {
-            result = 'You lose.';
-          }
-          
+          result = computerMove === 'rock' ? 'You win.' : computerMove === 'paper' ? 'Tie.' : 'You lose.';
         } else if (playerMove === 'rock') {
-          if (computerMove === 'rock') {
-            result = 'Tie.';
-          } else if (computerMove === 'paper') {
-            result = 'You lose.';
-          } else if (computerMove === 'scissors') {
-            result = 'You win.';
-          }
+          result = computerMove === 'rock' ? 'Tie.' : computerMove === 'paper' ? 'You lose.' : 'You win.';
         }
 
         if (result === 'You win.') {
@@ -123,15 +93,14 @@
         }
 
         localStorage.setItem('score', JSON.stringify(score));
-
         updateScoreElement();
 
         document.querySelector('.js-result').innerHTML = result;
+        document.querySelector('.js-moves').innerHTML = `you ${emojiForMove(playerMove)} ${emojiForMove(computerMove)} computer`;
+      }
 
-        document.querySelector('.js-moves').innerHTML = `you
-      <img class="scissors-image" src="Intro Exercises/Rockpaperscissors/${playerMove}-emoji.png">
-      <img class="scissors-image" src="Intro Exercises/Rockpaperscissors/${computerMove}-emoji.png">
-      computer`;
+      function emojiForMove(move) {
+        return move === 'rock' ? '✊' : move === 'paper' ? '✋' : '✌️';
       }
 
       function updateScoreElement() {
@@ -141,18 +110,9 @@
 
       function pickComputerMove() {
         const randomNumber = Math.random();
-
-        let computerMove = '';
-
-        if (randomNumber >= 0 && randomNumber < 1 / 3) {
-          computerMove = 'rock';
-        } else if (randomNumber >= 1 / 3 && randomNumber < 2 / 3) {
-          computerMove = 'paper';
-        } else if (randomNumber >= 2 / 3 && randomNumber < 1) {
-          computerMove = 'scissors';
-        }
-
-        return computerMove;
+        if (randomNumber < 1 / 3) return 'rock';
+        else if (randomNumber < 2 / 3) return 'paper';
+        else return 'scissors';
       }
     </script>
   </body>
